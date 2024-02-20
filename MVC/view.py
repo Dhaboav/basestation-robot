@@ -1,5 +1,7 @@
 import tkinter as Tk
 import tkinter.font as font
+from tkinter import messagebox
+from datetime import datetime
 
 
 class View:
@@ -20,9 +22,9 @@ class View:
         self.__label_port_refbox = Tk.Label(master=self.__refbox_label_frame, text='PORT')
         self.__port_refbox = Tk.Entry(master=self.__refbox_label_frame, width=20)
         self.__connect_button = Tk.Button(master=self.__refbox_label_frame, text='Connect', width=10, 
-                                        foreground='white', background='green', command=self.set_connection_status)
+                                        foreground='white', background='green', command=self.__controller.connect_refbox)
         self.__disconnect_button = Tk.Button(master=self.__refbox_label_frame, text='Disconnect', width=10, 
-                                        foreground='white', background='red', command=self.set_connection_statuss)
+                                        foreground='white', background='red', command=self.__controller.disconnect_refbox)
         self.__connection_status = Tk.Frame(master=self.__refbox_label_frame, width=25, height=25, background='red')
         # Position
         self.__label_ip_refbox.grid(row=0, column=0)
@@ -42,9 +44,9 @@ class View:
         self.__label_port_server = Tk.Label(master=self.__server_label_frame, text='PORT')
         self.__port_server = Tk.Entry(master=self.__server_label_frame, width=20)
         self.__connect_server_button = Tk.Button(master=self.__server_label_frame, text='Connect', width=10, 
-                                        foreground='white', background='green', command=self.set_connection_status)
+                                        foreground='white', background='green')
         self.__disconnect_server_button = Tk.Button(master=self.__server_label_frame, text='Disconnect', width=10, 
-                                        foreground='white', background='red', command=self.set_connection_statuss)
+                                        foreground='white', background='red')
         self.__server_status = Tk.Frame(master=self.__server_label_frame, width=25, height=25, background='red')
         # Position
         self.__label_ip_server.grid(row=0, column=0)
@@ -58,13 +60,16 @@ class View:
     def __prompt_panel(self, master):
         self.__prompt_label_frame = Tk.LabelFrame(master=master, text='PROMPT', width=200)
         self.__prompt_label_frame.grid(row=2, column=0, padx=10)
+        self.__prompt_font = font.Font(family='Consolas', size=11, weight='bold')
         # Component
-        self.__text_area = Tk.Text(master=self.__prompt_label_frame, width=25, height=9, 
-                                   foreground='chartreuse1', background='black', font=('Consolas', 11))
+        self.__text_area = Tk.Text(master=self.__prompt_label_frame, width=28, height=9, 
+                                   foreground='chartreuse1', background='black')
+        self.__text_area['font'] = self.__prompt_font
+        self.__text_area.configure(state="disabled")
         self.__clear_button = Tk.Button(master=self.__prompt_label_frame, text='Clear', width=10, 
                                         foreground='white', background='blue', command=self.__controller.clear_prompt)
         # Position
-        self.__text_area.grid(row=0, column=0, padx=10, pady=5)
+        self.__text_area.grid(row=0, column=0, padx=5, pady=5)
         self.__clear_button.grid(row=1, column=0, pady=(5,10))
 
     def __team_panel(self, master):
@@ -151,26 +156,35 @@ class View:
         self.__sesi4_button.grid(row=5, column=1, padx=5, pady=(0, 5))
 
 
-    # Setter Getter   
-    def set_empty_text_area(self) -> None:
-        self.__text_area.delete('1.0', Tk.END)
-
-    def set_server_ip(self, IP_ADDRESS:str) -> str:
-        self.__server_ip.config(text=IP_ADDRESS)
-
-    def set_team_name(self, team_category:str) -> str:
-        self.__team_name.config(text=team_category)
-
-    def set_team_color(self, team_color:str) -> str:
-        self.__color_team_tag.config(background=team_color)
-
-
-
-
-    # Testing setter
-    def set_connection_status(self):
-        self.__server_status.config(background='green')
-    
-    def set_connection_statuss(self):
-        self.__server_status.config(background='red')
+    # Setter   
+    def set_connection_status_connected(self):
+        self.__connection_status.configure(background='green')
         
+    def set_connection_status_disconnect(self):
+        self.__connection_status.configure(background='red')
+
+    def set_prompt_log(self, message:str):
+        __timestamp = datetime.now().strftime('[%H:%M:%S] ')
+        self.__text_area.configure(state="normal")
+        self.__text_area.insert(Tk.END, __timestamp + message + '\n')
+        self.__text_area.see(Tk.END)
+        self.__text_area.configure(state="disabled")
+        
+    def set_empty_text_area(self):
+        self.__text_area.configure(state="normal")
+        self.__text_area.delete('1.0', Tk.END)
+        self.__text_area.configure(state="disabled")
+
+    # Getter
+    def get_ip_refbox(self) -> str:
+        return self.__ip_refbox.get()
+
+    def get_port_refbox(self) -> int:
+        return self.__port_refbox.get()
+    
+    # Dialog
+    def show_info_dialog(self, title:str, message:str):
+        messagebox.showinfo(title, message)
+
+    def show_error_dialog(self, title:str, message:str):
+        messagebox.showerror(title, message)

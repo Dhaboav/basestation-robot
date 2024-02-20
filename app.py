@@ -5,7 +5,7 @@ from MVC.controller import Controller
 def main():
     window = Tk()
     window.title('Basestation')
-    window.geometry('640x480')
+    window.geometry('660x480')
     window.resizable(width=False, height=False)
     Controller(master=window)
     window.mainloop()

@@ -33,6 +33,9 @@ class Controller:
         else:
             self.__view.show_error_dialog(title='Connection Error', message=__connecting)
 
+    def clear_prompt(self):
+        self.__view.set_empty_text_area()
+
     def handle_received_message(self, message:str):
         if message == 'Koneksi terputus':
             self.__view.set_connection_status_disconnect()
@@ -42,6 +45,8 @@ class Controller:
             __translated = self.__model.get_refbox_message_dict(key=message)
             if __translated is not None:
                 self.__view.set_prompt_log(message=__translated)
-        
-    def clear_prompt(self):
-        self.__view.set_empty_text_area()
+
+    def handle_control_button(self, button_id:str) -> str:
+        __button2robot = self.__model.get_button_dict(key=button_id)
+        # future_bot(__button2robot)
+        self.__view.set_prompt_log(message=button_id)     

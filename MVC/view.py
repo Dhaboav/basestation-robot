@@ -88,53 +88,53 @@ class View:
         self.__control_font = font.Font(family='Calibri', size=16, weight='bold')
         # Component
         self.__kickoff_button = Tk.Button(master=self.__control_label_frame, text='K | kick off', width=10, 
-                                        foreground='white', background='blue')
+                                        foreground='white', background='blue', command=lambda: self.__controller.handle_control_button(button_id='kick off'))
         self.__kickoff_button['font'] = self.__control_font
         self.__freekick_button = Tk.Button(master=self.__control_label_frame, text='F | free kick', width=10, 
-                                        foreground='white', background='blue')
+                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='free kick'))
         self.__freekick_button['font'] = self.__control_font
         self.__goalkick_button = Tk.Button(master=self.__control_label_frame, text='G | goal kick', width=10, 
-                                        foreground='white', background='blue')
+                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='goal kick'))
         self.__goalkick_button['font'] = self.__control_font
         self.__throwin_button = Tk.Button(master=self.__control_label_frame, text='T | throw in', width=10, 
-                                        foreground='white', background='blue')
+                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='throw in'))
         self.__throwin_button['font'] = self.__control_font
         self.__corner_button = Tk.Button(master=self.__control_label_frame, text='C | corner', width=10, 
-                                        foreground='white', background='blue')
+                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='corner'))
         self.__corner_button['font'] = self.__control_font
         self.__penalty_button = Tk.Button(master=self.__control_label_frame, text='P | penalty', width=10, 
-                                        foreground='white', background='blue')
+                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='penalty'))
         self.__penalty_button['font'] = self.__control_font
         self.__repair_button = Tk.Button(master=self.__control_label_frame, text='R | repair', width=10, 
-                                        foreground='white', background='blue')
+                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='repair'))
         self.__repair_button['font'] = self.__control_font
         self.__start_button = Tk.Button(master=self.__control_label_frame, text='0 | start', width=10, 
-                                        foreground='white', background='darkorchid1')
+                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='start'))
         self.__start_button['font'] = self.__control_font
         self.__stop_button = Tk.Button(master=self.__control_label_frame, text='1 | stop', width=10, 
-                                        foreground='white', background='darkorchid1')
+                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='stop'))
         self.__stop_button['font'] = self.__control_font
         self.__dropball_button = Tk.Button(master=self.__control_label_frame, text='2 | drop ball', width=10, 
-                                        foreground='white', background='darkorchid1')
+                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='drop ball'))
         self.__dropball_button['font'] = self.__control_font
         self.__park_button = Tk.Button(master=self.__control_label_frame, text='3 | park', width=10, 
-                                        foreground='white', background='darkorchid1')
+                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='park'))
         self.__park_button['font'] = self.__control_font
         self.__reset_button = Tk.Button(master=self.__control_label_frame, text='4 | reset', width=10, 
-                                        foreground='white', background='darkorchid1')
+                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='reset'))
         self.__reset_button['font'] = self.__control_font
         # Dummy
-        self.__sesi1_button = Tk.Button(master=self.__control_label_frame, text='sesi I', width=10, 
-                                        foreground='white', background='azure4')
+        self.__sesi1_button = Tk.Button(master=self.__control_label_frame, text='Y | sesi I', width=10, 
+                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 1'))
         self.__sesi1_button['font'] = self.__control_font
-        self.__sesi2_button = Tk.Button(master=self.__control_label_frame, text='sesi II', width=10, 
-                                        foreground='white', background='azure4')
+        self.__sesi2_button = Tk.Button(master=self.__control_label_frame, text='U | sesi II', width=10, 
+                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 2'))
         self.__sesi2_button['font'] = self.__control_font
-        self.__sesi3_button = Tk.Button(master=self.__control_label_frame, text='sesi III', width=10, 
-                                        foreground='white', background='azure4')
+        self.__sesi3_button = Tk.Button(master=self.__control_label_frame, text='V | sesi III', width=10, 
+                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 3'))
         self.__sesi3_button['font'] = self.__control_font
-        self.__sesi4_button = Tk.Button(master=self.__control_label_frame, text='sesi IV', width=10, 
-                                        foreground='white', background='azure4')
+        self.__sesi4_button = Tk.Button(master=self.__control_label_frame, text='O | sesi IV', width=10, 
+                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 4'))
         self.__sesi4_button['font'] = self.__control_font
         # Position
         self.__kickoff_button.grid(row=0, column=0, padx=(5, 0))

@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 
 
 class Server:
@@ -9,6 +10,8 @@ class Server:
             self.__connection_dict = connection_dict
             self.__server_running = False
             self.__device_name_callback = None
+            self.__message = 'Tersambung'
+            self.__client_sockets = []
 
     # Core
     def switch_on(self, port: int) -> str:
@@ -17,7 +20,6 @@ class Server:
                 self.__server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.__server_socket.bind((self.__ip_address, int(port)))
                 self.__server_socket.listen(3)
-
                 self.__server_running = True
 
                 # Thread untuk handle koneksi masuk
@@ -33,8 +35,12 @@ class Server:
     def switch_off(self):
         if self.__server_running:
             try:
-                self.__server_socket.close()
                 self.__server_running = False
+                self.__server_socket.close()
+                # Close all client sockets
+                for client_socket in self.__client_sockets:
+                    client_socket.close()
+
                 return 'Server mati'
             except Exception as e:
                 return e
@@ -44,20 +50,14 @@ class Server:
     def __handle__incoming_connection(self):
         while self.__server_running:
             try:
-                print('Cps')
-                if self.__server_socket is None:
-                    print('oerh')
-                    break
                 __client_socket, __client_address = self.__server_socket.accept()
+                self.__client_sockets.append(__client_socket)
                 __client_thread = threading.Thread(target=self.__handle_clients, args=(__client_socket, __client_address))
                 __client_thread.start()  
-            except OSError as i:
-                print(f'OS: {i}')
+            except OSError:
                 break
-            except Exception as e:
-                print(f'Unexpected error: {e}')
+            except Exception:
                 break
-        print('Exiting __handle__incoming_connection')
 
     def __handle_clients(self, client_socket, client_address):
         __client_ip = client_address[0]
@@ -66,46 +66,41 @@ class Server:
             if self.__device_name_callback:
                 self.__device_name_callback(__device_name + ' Tersambung')
 
-            send_thread = threading.Thread(target=self.send_messages, args=(client_socket, __device_name))
+            send_thread = threading.Thread(target=self.__server_to_client, args=(client_socket, __device_name))
             send_thread.start()
 
-                # Nerima data dari client:
-            # try:
-            #     # Create a new thread to send messages
-            #     # Handle receiving data from the client
-            #     while True:
-            #         data = client_socket.recv(1024)
-            #         if not data:
-            #             break
-            #         print(f"Received data from {__device_name}: {data.decode()}")
-
-            # except ConnectionResetError:
-            #     if self.__device_name_callback:
-            #         self.__device_name_callback(__device_name + ' Terputus')
-            # finally:
-            #     client_socket.close()
+            # Nerima data dari client:
+            try:
+                while self.__server_running:
+                    data = client_socket.recv(1024)
+                    if not data:
+                        break
+            except ConnectionAbortedError:
+                pass
+            except ConnectionResetError:
+                if self.__device_name_callback:
+                    self.__device_name_callback(__device_name + ' Terputus')
+            finally:
+                client_socket.close()
         else:
             pass
             client_socket.close()
 
-    def send_messages(self, client_socket, device_name):
+    def __server_to_client(self, client_socket, device_name):
         while self.__server_running:
             # Check if the client socket is still open
             if client_socket.fileno() == -1:
-                print(f"Client socket for {device_name} is closed. Stopping send thread.")
                 break
-
-            # Send a message to the client
-            message = f"Hello from server to {device_name}"
             try:
-                client_socket.send(message.encode())
-                print(f"Sent message to {device_name}: {message}")
+                if self.__message:
+                    client_socket.send(self.__message.encode())
+                    self.__message = None
+                else:
+                    time.sleep(0.1)
             except ConnectionResetError:
                 if self.__device_name_callback:
                     self.__device_name_callback(device_name + ' Terputus')
                 break
-
-
 
     # Other     
     def __filtering_ip_client(self, ip_address_client) -> str:
@@ -120,3 +115,6 @@ class Server:
     
     def get_server_ip(self) -> str:
         return self.__ip_address
+    
+    def set_messeage(self, msg:str):
+        self.__message = msg

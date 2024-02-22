@@ -49,6 +49,8 @@ class Client:
                     break
                 if self.__message_callback:
                     self.__message_callback(data.decode('utf-8'))
+        except ConnectionResetError:
+            self.handle_disconnect()
         except ConnectionAbortedError as i:
             pass
         except socket.error:

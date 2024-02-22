@@ -80,4 +80,5 @@ class Controller:
 
     def handle_control_button(self, button_id:str) -> str:
         __button2robot = self.__model.get_button_dict(key=button_id)
+        self.__server.set_messeage(msg=__button2robot)
         self.__view.set_prompt_log(message=button_id)     

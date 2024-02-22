@@ -10,7 +10,6 @@ class View:
         self.__refbox_panel(master=master)
         self.__server_panel(master=master)
         self.__prompt_panel(master=master)
-        self.__team_panel(master=master)
         self.__control_panel(master=master)
 
     def __refbox_panel(self, master):
@@ -72,19 +71,9 @@ class View:
         self.__text_area.grid(row=0, column=0, padx=5, pady=5)
         self.__clear_button.grid(row=1, column=0, pady=(5,10))
 
-    def __team_panel(self, master):
-        self.__team_label_frame = Tk.LabelFrame(master=master, text='TEAM INDICATOR', width=200)
-        self.__team_label_frame.grid(row=0, column=1)
-        # Component
-        self.__team_name = Tk.Label(master=self.__team_label_frame, text='Unknown')
-        self.__color_team_tag = Tk.Frame(master=self.__team_label_frame, width=50, height=25, background='black')
-        # Position
-        self.__team_name.pack(side='left')
-        self.__color_team_tag.pack(side='right')
-
     def __control_panel(self, master):
         self.__control_label_frame = Tk.LabelFrame(master=master, text='CONTROL PANEL', width=200)
-        self.__control_label_frame.grid(row=1, rowspan=3, column=1)
+        self.__control_label_frame.grid(row=0, rowspan=3, column=1)
         self.__control_font = font.Font(family='Calibri', size=16, weight='bold')
         # Component
         self.__kickoff_button = Tk.Button(master=self.__control_label_frame, text='K | kick off', width=10, 

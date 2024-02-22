@@ -11,6 +11,7 @@ class Controller:
         self.__client = Client()
         self.__client.set_message_callback(callback=self.handle_received_message)
         self.__server = Server(self.__model.get_ip_address())
+        self.__server.set_device_name_callback(callback=self.handle_device_connection)
 
     def connect_refbox(self):
         __ip_refbox = self.__view.get_ip_refbox()
@@ -73,6 +74,9 @@ class Controller:
                 self.__view.set_prompt_log(message=__translated)
             else:
                 self.__view.set_prompt_log(message=message)
+
+    def handle_device_connection(self, message:str):
+        self.__view.set_prompt_log(message=message)
 
     def handle_control_button(self, button_id:str) -> str:
         __button2robot = self.__model.get_button_dict(key=button_id)

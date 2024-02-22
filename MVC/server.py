@@ -8,6 +8,7 @@ class Server:
             self.__ip_address = socket.gethostbyname(socket.gethostname())
             self.__connection_dict = connection_dict
             self.__server_running = False
+            self.__device_name_callback = None
 
     # Core
     def switch_on(self, port: int) -> str:
@@ -20,7 +21,7 @@ class Server:
                 self.__server_running = True
 
                 # Thread untuk handle koneksi masuk
-                connection_thread = threading.Thread(target=self.__handle_connection, daemon=True)
+                connection_thread = threading.Thread(target=self.__handle__incoming_connection, daemon=True)
                 connection_thread.start()
                 return 'Server nyala'
             
@@ -40,39 +41,51 @@ class Server:
         else:
             return 'Server belum nyala'
 
-
-    def __handle_connection(self):
+    def __handle__incoming_connection(self):
         while self.__server_running:
             try:
+                print('Cps')
+                if self.__server_socket is None:
+                    print('oerh')
+                    break
                 __client_socket, __client_address = self.__server_socket.accept()
-                __client_thread = threading.Thread(target=self.handle_client, args=(__client_socket, __client_address))
-                __client_thread.start()
-            except OSError:
+                __client_thread = threading.Thread(target=self.__handle_clients, args=(__client_socket, __client_address))
+                __client_thread.start()  
+            except OSError as i:
+                print(f'OS: {i}')
                 break
+            except Exception as e:
+                print(f'Unexpected error: {e}')
+                break
+        print('Exiting __handle__incoming_connection')
 
-    def handle_client(self, client_socket, client_address):
+    def __handle_clients(self, client_socket, client_address):
         __client_ip = client_address[0]
         __device_name = self.__filtering_ip_client(ip_address_client=__client_ip)
         if __device_name:
-            print(f"Connection allowed for {__device_name}.")
-            try:
-                # Create a new thread to send messages
-                send_thread = threading.Thread(target=self.send_messages, args=(client_socket, __device_name))
-                send_thread.start()
+            if self.__device_name_callback:
+                self.__device_name_callback(__device_name + ' Tersambung')
 
-                # Handle receiving data from the client
-                while True:
-                    data = client_socket.recv(1024)
-                    if not data:
-                        break
-                    print(f"Received data from {__device_name}: {data.decode()}")
+            send_thread = threading.Thread(target=self.send_messages, args=(client_socket, __device_name))
+            send_thread.start()
 
-            except ConnectionResetError:
-                print(f"Connection with {__device_name} closed by client.")
-            finally:
-                client_socket.close()
+                # Nerima data dari client:
+            # try:
+            #     # Create a new thread to send messages
+            #     # Handle receiving data from the client
+            #     while True:
+            #         data = client_socket.recv(1024)
+            #         if not data:
+            #             break
+            #         print(f"Received data from {__device_name}: {data.decode()}")
+
+            # except ConnectionResetError:
+            #     if self.__device_name_callback:
+            #         self.__device_name_callback(__device_name + ' Terputus')
+            # finally:
+            #     client_socket.close()
         else:
-            print("Connection denied. Closing connection.")
+            pass
             client_socket.close()
 
     def send_messages(self, client_socket, device_name):
@@ -88,7 +101,8 @@ class Server:
                 client_socket.send(message.encode())
                 print(f"Sent message to {device_name}: {message}")
             except ConnectionResetError:
-                print(f"Connection with {device_name} reset by client.")
+                if self.__device_name_callback:
+                    self.__device_name_callback(device_name + ' Terputus')
                 break
 
 

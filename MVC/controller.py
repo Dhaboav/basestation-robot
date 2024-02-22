@@ -11,7 +11,6 @@ class Controller:
         self.__client = Client()
         self.__client.set_message_callback(callback=self.handle_received_message)
         self.__server = Server(self.__model.get_ip_address())
-        self.__server.set_device_name_callback(callback=self.handle_device_connect)
 
     def connect_refbox(self):
         __ip_refbox = self.__view.get_ip_refbox()
@@ -38,25 +37,25 @@ class Controller:
 
     def server_online(self):
         __port = self.__view.get_port_server()
-        __basestation = self.__server.start(port=__port)
-        if __basestation == 'Hidup':
+        __basestation = self.__server.switch_on(port=__port)
+        if __basestation == 'Server nyala':
             __ip_address = self.__server.get_server_ip()
             self.__view.set_server_status_on()
             self.__view.set_server_ip(IP_server=__ip_address)
-            self.__view.set_prompt_log(message=__basestation + ' server')
-        elif __basestation == 'Sudah hidup':
-            self.__view.show_info_dialog(title='Connection Info', message=__basestation + ' server')
+            self.__view.set_prompt_log(message=__basestation)
+        elif __basestation == 'Server sudah nyala':
+            self.__view.show_info_dialog(title='Connection Info', message=__basestation)
         else:
             self.__view.show_error_dialog(title='Connection Error', message=__basestation)
 
     def server_offline(self):
-        __basestation = self.__server.shutdown()
-        if __basestation == 'Mati':
+        __basestation = self.__server.switch_off()
+        if __basestation == 'Server mati':
             self.__view.set_server_status_off()
             self.__view.set_server_ip(IP_server='')
-            self.__view.set_prompt_log(message=__basestation + ' Server')
-        elif __basestation == 'Tidak hidup':
-            self.__view.show_info_dialog(title='Connection Info', message= __basestation + ' server')
+            self.__view.set_prompt_log(message=__basestation)
+        elif __basestation == 'Server belum nyala':
+            self.__view.show_info_dialog(title='Connection Info', message=__basestation)
         else:
             self.__view.show_error_dialog(title='Connection Error', message=__basestation)
 
@@ -72,9 +71,8 @@ class Controller:
             __translated = self.__model.get_refbox_message_dict(key=message)
             if __translated is not None:
                 self.__view.set_prompt_log(message=__translated)
-
-    def handle_device_connect(self, callback:str):
-        self.__view.set_prompt_log(message=callback + 'Terhubung')
+            else:
+                self.__view.set_prompt_log(message=message)
 
     def handle_control_button(self, button_id:str) -> str:
         __button2robot = self.__model.get_button_dict(key=button_id)

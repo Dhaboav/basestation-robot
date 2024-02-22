@@ -17,7 +17,7 @@ class Model:
             'sesi 1':'Y', 'sesi 2':'U', 'sesi 3':'V', 'sesi 4':'O'
         }
 
-        self.__ip_address_dict = {'Cyan':IP_CYAN, 'Robot Magenta':IP_MAGENTA}
+        self.__ip_address_dict = {'Cyan':IP_CYAN, 'Magenta':IP_MAGENTA}
 
     # Getter  
     def get_refbox_message_dict(self, key:str) -> str:

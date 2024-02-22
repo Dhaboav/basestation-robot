@@ -1,3 +1,5 @@
+from MVC.data import IP_CYAN, IP_MAGENTA
+
 class Model:
     def __init__(self):
         self.__refbox_dict = {
@@ -15,9 +17,14 @@ class Model:
             'sesi 1':'Y', 'sesi 2':'U', 'sesi 3':'V', 'sesi 4':'O'
         }
 
+        self.__ip_address_dict = {'Cyan':IP_CYAN, 'Robot Magenta':IP_MAGENTA}
+
     # Getter  
     def get_refbox_message_dict(self, key:str) -> str:
         return self.__refbox_dict.get(key, None)
     
     def get_button_dict(self, key:str) -> str:
         return self.__button_dict.get(key, None)
+    
+    def get_ip_address(self) -> dict:
+        return self.__ip_address_dict

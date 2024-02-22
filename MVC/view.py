@@ -44,9 +44,9 @@ class View:
         self.__label_port_server = Tk.Label(master=self.__server_label_frame, text='PORT')
         self.__port_server = Tk.Entry(master=self.__server_label_frame, width=20)
         self.__connect_server_button = Tk.Button(master=self.__server_label_frame, text='Connect', width=10, 
-                                        foreground='white', background='green')
+                                        foreground='white', background='green', command=self.__controller.server_online)
         self.__disconnect_server_button = Tk.Button(master=self.__server_label_frame, text='Disconnect', width=10, 
-                                        foreground='white', background='red')
+                                        foreground='white', background='red', command=self.__controller.server_offline)
         self.__server_status = Tk.Frame(master=self.__server_label_frame, width=25, height=25, background='red')
         # Position
         self.__label_ip_server.grid(row=0, column=0)
@@ -175,12 +175,24 @@ class View:
         self.__text_area.delete('1.0', Tk.END)
         self.__text_area.configure(state="disabled")
 
+    def set_server_ip(self, IP_server:str):
+        self.__server_ip.configure(text=IP_server)
+
+    def set_server_status_on(self):
+        self.__server_status.configure(background='green')
+        
+    def set_server_status_off(self):
+        self.__server_status.configure(background='red')
+
     # Getter
     def get_ip_refbox(self) -> str:
         return self.__ip_refbox.get()
 
-    def get_port_refbox(self) -> int:
+    def get_port_refbox(self) -> str:
         return self.__port_refbox.get()
+    
+    def get_port_server(self) -> str:
+        return self.__port_server.get()
     
     # Dialog
     def show_info_dialog(self, title:str, message:str):

@@ -97,32 +97,32 @@ class View:
         self.__repair_button = Tk.Button(master=self.__control_label_frame, text='R | repair', width=10, 
                                         foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='repair'))
         self.__repair_button['font'] = self.__control_font
-        self.__start_button = Tk.Button(master=self.__control_label_frame, text='0 | start', width=10, 
+        self.__start_button = Tk.Button(master=self.__control_label_frame, text='s | start', width=10, 
                                         foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='start'))
         self.__start_button['font'] = self.__control_font
-        self.__stop_button = Tk.Button(master=self.__control_label_frame, text='1 | stop', width=10, 
+        self.__stop_button = Tk.Button(master=self.__control_label_frame, text='S | stop', width=10, 
                                         foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='stop'))
         self.__stop_button['font'] = self.__control_font
-        self.__dropball_button = Tk.Button(master=self.__control_label_frame, text='2 | drop ball', width=10, 
+        self.__dropball_button = Tk.Button(master=self.__control_label_frame, text='N | drop ball', width=10, 
                                         foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='drop ball'))
         self.__dropball_button['font'] = self.__control_font
-        self.__park_button = Tk.Button(master=self.__control_label_frame, text='3 | park', width=10, 
+        self.__park_button = Tk.Button(master=self.__control_label_frame, text='L | park', width=10, 
                                         foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='park'))
         self.__park_button['font'] = self.__control_font
-        self.__reset_button = Tk.Button(master=self.__control_label_frame, text='4 | reset', width=10, 
+        self.__reset_button = Tk.Button(master=self.__control_label_frame, text='Z | reset', width=10, 
                                         foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='reset'))
         self.__reset_button['font'] = self.__control_font
         # Dummy
-        self.__sesi1_button = Tk.Button(master=self.__control_label_frame, text='Y | sesi I', width=10, 
+        self.__sesi1_button = Tk.Button(master=self.__control_label_frame, text='1 | sesi I', width=10, 
                                         foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 1'))
         self.__sesi1_button['font'] = self.__control_font
-        self.__sesi2_button = Tk.Button(master=self.__control_label_frame, text='U | sesi II', width=10, 
+        self.__sesi2_button = Tk.Button(master=self.__control_label_frame, text='2 | sesi II', width=10, 
                                         foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 2'))
         self.__sesi2_button['font'] = self.__control_font
-        self.__sesi3_button = Tk.Button(master=self.__control_label_frame, text='V | sesi III', width=10, 
+        self.__sesi3_button = Tk.Button(master=self.__control_label_frame, text='3 | sesi III', width=10, 
                                         foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 3'))
         self.__sesi3_button['font'] = self.__control_font
-        self.__sesi4_button = Tk.Button(master=self.__control_label_frame, text='O | sesi IV', width=10, 
+        self.__sesi4_button = Tk.Button(master=self.__control_label_frame, text='4 | sesi IV', width=10, 
                                         foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 4'))
         self.__sesi4_button['font'] = self.__control_font
         # Position

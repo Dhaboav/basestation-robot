@@ -64,7 +64,7 @@ class Server:
         __device_name = self.__filtering_ip_client(ip_address_client=__client_ip)
         if __device_name:
             if self.__device_name_callback:
-                self.__device_name_callback(__device_name + ' Tersambung')
+                self.__device_name_callback(__device_name + ' [✔]')
 
             send_thread = threading.Thread(target=self.__server_to_client, args=(client_socket, __device_name))
             send_thread.start()
@@ -79,12 +79,13 @@ class Server:
                 pass
             except ConnectionResetError:
                 if self.__device_name_callback:
-                    self.__device_name_callback(__device_name + ' Terputus')
+                    self.__device_name_callback(__device_name + ' [X]')
             finally:
                 client_socket.close()
         else:
-            pass
             client_socket.close()
+            if self.__device_name_callback:
+                    self.__device_name_callback(__client_ip + ' [X]')
 
     def __server_to_client(self, client_socket, device_name):
         while self.__server_running:
@@ -99,7 +100,7 @@ class Server:
                     time.sleep(0.1)
             except ConnectionResetError:
                 if self.__device_name_callback:
-                    self.__device_name_callback(device_name + ' Terputus')
+                    self.__device_name_callback(device_name + ' [X]')
                 break
 
     # Other     

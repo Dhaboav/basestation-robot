@@ -12,6 +12,8 @@ class Controller:
         self.__client.set_message_callback(callback=self.handle_received_message)
         self.__server = Server(self.__model.get_ip_address())
         self.__server.set_device_name_callback(callback=self.handle_device_connection)
+        self.__status_server = False
+        self.__status_client = False
 
     def connect_refbox(self):
         __ip_refbox = self.__view.get_ip_refbox()
@@ -20,6 +22,7 @@ class Controller:
         if __connecting == 'Terhubung':
             self.__view.set_connection_status_connected()
             self.__view.set_prompt_log(message=__connecting + ' Refbox')
+            self.__status_client = True
             self.__client.start_receiving()
         elif __connecting == 'Sudah terhubung':
             self.__view.show_info_dialog(title='Connection Info', message=__connecting + ' ke refbox')
@@ -31,6 +34,7 @@ class Controller:
         if __connecting == 'Terputus':
             self.__view.set_connection_status_disconnect()
             self.__view.set_prompt_log(message=__connecting + ' Refbox')
+            self.__status_client = False
         elif __connecting == 'Tidak terhubung':
             self.__view.show_info_dialog(title='Connection Info', message= __connecting + ' ke refbox')
         else:
@@ -44,6 +48,7 @@ class Controller:
             self.__view.set_server_status_on()
             self.__view.set_server_ip(IP_server=__ip_address)
             self.__view.set_prompt_log(message=__basestation)
+            self.__status_server = True
         elif __basestation == 'Server sudah nyala':
             self.__view.show_info_dialog(title='Connection Info', message=__basestation)
         else:
@@ -55,6 +60,7 @@ class Controller:
             self.__view.set_server_status_off()
             self.__view.set_server_ip(IP_server='')
             self.__view.set_prompt_log(message=__basestation)
+            self.__status_server = False
         elif __basestation == 'Server belum nyala':
             self.__view.show_info_dialog(title='Connection Info', message=__basestation)
         else:
@@ -70,15 +76,23 @@ class Controller:
             self.__view.show_error_dialog(title='Connection Error', message='Koneksi ke Refbox Terputus')
         else:
             __translated = self.__model.get_refbox_message_dict(key=message)
-            if __translated is not None:
-                self.__view.set_prompt_log(message=__translated)
+            if self.__status_server and self.__status_client:
+                if __translated is not None:
+                    __check = self.__model.get_keep_character(key=message)
+                    self.__server.set_message(msg=__check)
+                    self.__view.set_prompt_log(message=__translated)
+                else:
+                    self.__view.set_prompt_log(message=message)
             else:
-                self.__view.set_prompt_log(message=message)
+                if __translated is not None:
+                    self.__view.set_prompt_log(message=__translated)
+                else:
+                    self.__view.set_prompt_log(message=message)
 
     def handle_device_connection(self, message:str):
         self.__view.set_prompt_log(message=message)
 
     def handle_control_button(self, button_id:str) -> str:
         __button2robot = self.__model.get_button_dict(key=button_id)
-        self.__server.set_messeage(msg=__button2robot)
+        self.__server.set_message(msg=__button2robot)
         self.__view.set_prompt_log(message=button_id)     

@@ -117,5 +117,5 @@ class Server:
     def get_server_ip(self) -> str:
         return self.__ip_address
     
-    def set_messeage(self, msg:str):
+    def set_message(self, msg:str):
         self.__message = msg

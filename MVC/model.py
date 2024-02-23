@@ -13,11 +13,12 @@ class Model:
         self.__button_dict = {
             'kick off':'K', 'free kick':'F', 'goal kick':'G',
             'throw in':'T', 'corner':'C', 'penalty':'P', 'repair':'R',
-            'start':'0', 'stop':'1', 'drop ball':'2', 'park':'3', 'reset':'4',
-            'sesi 1':'Y', 'sesi 2':'U', 'sesi 3':'V', 'sesi 4':'O'
+            'start':'s', 'stop':'S', 'drop ball':'N', 'park':'L', 'reset':'Z',
+            'sesi 1':'1', 'sesi 2':'2', 'sesi 3':'3', 'sesi 4':'4'
         }
 
         self.__ip_address_dict = {'Cyan':IP_CYAN, 'Magenta':IP_MAGENTA}
+        self.__keep_character = ['s', 'S']
 
     # Getter  
     def get_refbox_message_dict(self, key:str) -> str:
@@ -28,3 +29,9 @@ class Model:
     
     def get_ip_address(self) -> dict:
         return self.__ip_address_dict
+    
+    def get_keep_character(self, key:str) -> str:
+        if key not in self.__keep_character:
+            return key.upper()
+        else:
+            return key

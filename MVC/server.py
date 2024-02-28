@@ -1,4 +1,5 @@
 import socket
+import psutil
 import threading
 import time
 
@@ -6,12 +7,23 @@ import time
 class Server:
 
     def __init__(self, connection_dict: dict):
-            self.__ip_address = socket.gethostbyname(socket.gethostname())
             self.__connection_dict = connection_dict
             self.__server_running = False
             self.__device_name_callback = None
             self.__message = 'Tersambung'
             self.__client_sockets = []
+            self.__init_ipv4_address()
+
+    def __init_ipv4_address(self) -> None:
+        __wifi_ip = None
+        try:
+            for addr in psutil.net_if_addrs()['Wi-Fi']:
+                if addr.family == socket.AF_INET:
+                    __wifi_ip = addr.address
+                    break
+        except (IndexError, KeyError) as e:
+            print("Error:", e)
+        self.__ip_address = __wifi_ip
 
     # Core
     def switch_on(self, port: int) -> str:
@@ -106,7 +118,7 @@ class Server:
     # Other     
     def __filtering_ip_client(self, ip_address_client) -> str:
         for device_name, ip_list in self.__connection_dict.items():
-            if ip_address_client in ip_list:
+            if ip_address_client == ip_list:
                 return device_name
         return None
 

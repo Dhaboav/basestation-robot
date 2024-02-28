@@ -7,7 +7,7 @@
 <h3 align="center">Basestation</h3>
 
   <p align="center">
-    Repositori untuk basestation tim robot Ver 2.0 
+    Repositori untuk basestation tim robot Ver 2.0.1 
     <br />
     <a href="https://github.com/Dhaboav/basestation/issues">Lapor Bug atau issue</a>
   </p>
@@ -26,8 +26,9 @@
 
 
 ### Requirment
-1. Install Python
-2. Klon repo dari github.
+1. Install Python.
+2. `pip install psutil` pada Python.
+3. Klon repo dari github.
   ```git
    git clone https://github.com/Dhaboav/basestation.git
   ```

@@ -7,7 +7,7 @@
 <h3 align="center">Basestation</h3>
 
   <p align="center">
-    Repositori untuk basestation tim robot Ver 2.0.1 
+    Repositori untuk basestation tim robot Ver 2.0.2 
     <br />
     <a href="https://github.com/Dhaboav/basestation/issues">Lapor Bug atau issue</a>
   </p>
@@ -19,7 +19,8 @@
   <ol>
     <li><a href="#Requirment">Requirment</a></li>
     <li><a href="#Structure">Struktur repositori</a></li>
-    <li><a href="#Use">Penggunaan aplikasi</a></li>
+    <li><a href="#Detail">Detail dari struktur</a></li>
+    <li><a href="#How to use">Cara menggunakan aplikasi</a></li>
     <li><a href="#About">Penjelasan aplikasi</a></li>
   </ol>
 </details>
@@ -43,18 +44,19 @@
 |   ├── __init__.py
 |   ├── client.py
 |   ├── controller.py
-|   ├── data.py
 |   ├── model.py
 |   ├── server.py
 |   └── view.py
 |
 ├── .gitignore
 ├── app.py
+├── data.json
 └── README.md
 ```
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
 
-### Use
+
+### Detail
 1. Bagian `model` berfungsi untuk menyimpan segala data yang akan digunakan pada aplikasi.
 2. Bagian `view` mengatur tampilan interface aplikasi.
 3. Bagian `controller` mengatur segala perubahan yang terjadi.
@@ -63,6 +65,13 @@
 
 `HANYA UBAH` bagian `data` dan tidak direkomendasikan untuk mengubah source code selain file data.
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
+
+
+### How to use
+1. Buat file `data.json` jika tidak tersedia
+2. Jalankan `app.py` pada terminal
+<p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
+
 
 ### About
 Aplikasi menggunakan arsitektur MVC (MODEL-VIEW-CONTROLLER) dengan tambahan fungsionalitas client-server dan dibuat dengan bahasa pemrogramaan Python untuk versi saat ini hanya berkerja pada platform Windows dengan limitasi harus dijalankan dengan terminal pada file dengan nama `app.py`.

@@ -1,7 +1,11 @@
-from MVC.data import IP_CYAN, IP_MAGENTA
+import json
+
 
 class Model:
     def __init__(self):
+        with open('data.json', 'r') as json_file:
+            data = json.load(json_file)
+
         self.__refbox_dict = {
             'k':'[M] kick off', 'f':'[M] free kick', 'g':'[M] goal kick',
             't':'[M] throw in', 'c':'[M] corner', 'p':'[M] penalty',
@@ -17,7 +21,7 @@ class Model:
             'sesi 1':'1', 'sesi 2':'2', 'sesi 3':'3', 'sesi 4':'4'
         }
 
-        self.__ip_address_dict = {'Cyan':IP_CYAN, 'Magenta':IP_MAGENTA}
+        self.__ip_address_dict = {'Cyan':data["IP_CYAN"], 'Magenta':data["IP_MAGENTA"]}
         self.__keep_character = ['s', 'S']
 
     # Getter  

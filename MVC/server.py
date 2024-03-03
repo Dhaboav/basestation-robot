@@ -94,10 +94,13 @@ class Server:
                     self.__device_name_callback(__device_name + ' [X]')
             finally:
                 client_socket.close()
+                if self.__device_name_callback:
+                    self.__device_name_callback(__device_name + ' [X]')
         else:
             client_socket.close()
             if self.__device_name_callback:
-                    self.__device_name_callback(__client_ip + ' [X]')
+                self.__device_name_callback(__client_ip + ' [X]')
+
 
     def __server_to_client(self, client_socket, device_name):
         while self.__server_running:

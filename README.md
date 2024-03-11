@@ -31,7 +31,7 @@
 2. `pip install psutil` pada Python.
 3. Klon repo dari github.
   ```git
-   git clone https://github.com/Dhaboav/basestation.git
+   git clone -b edit-branch https://github.com/dhaboav/basestation.git
   ```
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
 

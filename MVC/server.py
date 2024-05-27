@@ -2,17 +2,18 @@ import socket
 import psutil
 import threading
 import time
+import queue
 
 
 class Server:
 
     def __init__(self, connection_dict: dict):
-            self.__connection_dict = connection_dict
-            self.__server_running = False
-            self.__device_name_callback = None
-            self.__message = 'Tersambung'
-            self.__client_sockets = []
-            self.__init_ipv4_address()
+        self.__connection_dict = connection_dict
+        self.__server_running = False
+        self.__device_name_callback = None
+        self.__message_queue = queue.Queue()  # Queue for storing messages to be sent
+        self.__client_sockets = []
+        self.__init_ipv4_address()
 
     def __init_ipv4_address(self) -> None:
         __wifi_ip = None
@@ -34,13 +35,16 @@ class Server:
                 self.__server_socket.listen(3)
                 self.__server_running = True
 
-                # Thread untuk handle koneksi masuk
-                connection_thread = threading.Thread(target=self.__handle__incoming_connection, daemon=True)
+                # Thread to handle incoming connections
+                connection_thread = threading.Thread(target=self.__handle_incoming_connection, daemon=True)
                 connection_thread.start()
+                # Thread to send messages to clients
+                send_thread = threading.Thread(target=self.__send_messages_to_clients, daemon=True)
+                send_thread.start()
                 return 'Server nyala'
             
             except Exception as e:
-                return e
+                return str(e)
         else:
             return 'Server sudah nyala'
         
@@ -55,33 +59,28 @@ class Server:
 
                 return 'Server mati'
             except Exception as e:
-                return e
+                return str(e)
         else:
             return 'Server belum nyala'
 
-    def __handle__incoming_connection(self):
+    def __handle_incoming_connection(self):
         while self.__server_running:
             try:
-                __client_socket, __client_address = self.__server_socket.accept()
-                self.__client_sockets.append(__client_socket)
-                __client_thread = threading.Thread(target=self.__handle_clients, args=(__client_socket, __client_address))
-                __client_thread.start()  
+                client_socket, client_address = self.__server_socket.accept()
+                self.__client_sockets.append(client_socket)
+                client_thread = threading.Thread(target=self.__handle_clients, args=(client_socket, client_address), daemon=True)
+                client_thread.start()  
             except OSError:
                 break
-            except Exception:
-                break
+            except Exception as e:
+                print("Error:", e)
 
     def __handle_clients(self, client_socket, client_address):
-        __client_ip = client_address[0]
-        __device_name = self.__filtering_ip_client(ip_address_client=__client_ip)
-        if __device_name:
+        client_ip = client_address[0]
+        device_name = self.__filtering_ip_client(ip_address_client=client_ip)
+        if device_name:
             if self.__device_name_callback:
-                self.__device_name_callback(__device_name + ' [✔]')
-
-            send_thread = threading.Thread(target=self.__server_to_client, args=(client_socket, __device_name))
-            send_thread.start()
-
-            # Nerima data dari client:
+                self.__device_name_callback(device_name + ' [✔]')
             try:
                 while self.__server_running:
                     data = client_socket.recv(1024)
@@ -91,41 +90,32 @@ class Server:
                 pass
             except ConnectionResetError:
                 if self.__device_name_callback:
-                    self.__device_name_callback(__device_name + ' [X]')
+                    self.__device_name_callback(device_name + ' [X]')
             finally:
                 client_socket.close()
                 if self.__device_name_callback:
-                    self.__device_name_callback(__device_name + ' [X]')
+                    self.__device_name_callback(device_name + ' [X]')
         else:
             client_socket.close()
-            if self.__device_name_callback:
-                self.__device_name_callback(__client_ip + ' [X]')
 
-
-    def __server_to_client(self, client_socket, device_name):
+    def __send_messages_to_clients(self):
         while self.__server_running:
-            # Check if the client socket is still open
-            if client_socket.fileno() == -1:
-                break
             try:
-                if self.__message:
-                    client_socket.send(self.__message.encode())
-                    self.__message = None
-                else:
-                    time.sleep(0.1)
-            except ConnectionResetError:
-                if self.__device_name_callback:
-                    self.__device_name_callback(device_name + ' [X]')
-                break
+                message = self.__message_queue.get(timeout=0.1)  # Get message from the queue
+                for client_socket in self.__client_sockets:
+                    try:
+                        client_socket.send(message.encode())  # Send message to each client
+                    except Exception as e:
+                        print("Error sending message to client:", e)
+            except queue.Empty:
+                pass
 
-    # Other     
     def __filtering_ip_client(self, ip_address_client) -> str:
         for device_name, ip_list in self.__connection_dict.items():
             if ip_address_client == ip_list:
                 return device_name
         return None
 
-    # Getter
     def set_device_name_callback(self, callback):
         self.__device_name_callback = callback
     
@@ -133,4 +123,4 @@ class Server:
         return self.__ip_address
     
     def set_message(self, msg:str):
-        self.__message = msg
+        self.__message_queue.put(msg)  # Put message into the queue

@@ -7,9 +7,9 @@
 <h3 align="center">Basestation</h3>
 
   <p align="center">
-    Repositori untuk basestation tim robot Ver 2.0.2 
+    Repositori untuk basestation tim robot Ver 2.0.4 
     <br />
-    <a href="https://github.com/Dhaboav/basestation/issues">Lapor Bug atau issue</a>
+    <a href="https://github.com/Dhaboav/basestation-robot/issues">Lapor Bug atau issue</a>
   </p>
 </div>
 
@@ -50,8 +50,8 @@
 |
 ├── .gitignore
 ├── app.py
-├── data.json
-└── README.md
+├── README.md
+└── setup.json
 ```
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
 
@@ -60,15 +60,15 @@
 1. Bagian `model` berfungsi untuk menyimpan segala data yang akan digunakan pada aplikasi.
 2. Bagian `view` mengatur tampilan interface aplikasi.
 3. Bagian `controller` mengatur segala perubahan yang terjadi.
-4. Bagian `data` dapat dirubah alamat `IP_ADDRESS` menyesuaikan kondisi.
+4. Bagian `setup` dapat dirubah alamat `IP_ADDRESS` menyesuaikan kondisi.
 5. Bagian `app` digunakan untuk menjalankan aplikasi.
 
-`HANYA UBAH` bagian `data` dan tidak direkomendasikan untuk mengubah source code selain file data.
+`HANYA UBAH` bagian `setup` dan tidak direkomendasikan untuk mengubah source code selain file data.
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
 
 
 ### How to use
-1. Buat file `data.json` jika tidak tersedia
+1. Buat file `setup.json` jika tidak tersedia
 2. Jalankan `app.py` pada terminal
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
 

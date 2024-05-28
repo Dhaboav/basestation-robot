@@ -3,7 +3,7 @@ import json
 
 class Model:
     def __init__(self):
-        with open('data.json', 'r') as json_file:
+        with open('setup.json', 'r') as json_file:
             data = json.load(json_file)
 
         self.__refbox_dict = {

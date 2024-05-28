@@ -89,8 +89,7 @@ class Server:
             except ConnectionAbortedError:
                 pass
             except ConnectionResetError:
-                if self.__device_name_callback:
-                    self.__device_name_callback(device_name + ' [X]')
+                pass
             finally:
                 client_socket.close()
                 if self.__device_name_callback:
@@ -101,12 +100,13 @@ class Server:
     def __send_messages_to_clients(self):
         while self.__server_running:
             try:
-                message = self.__message_queue.get(timeout=0.1)  # Get message from the queue
+                message = self.__message_queue.get(timeout=0.1)
                 for client_socket in self.__client_sockets:
                     try:
-                        client_socket.send(message.encode())  # Send message to each client
+                        client_socket.send(message.encode()) 
                     except Exception as e:
-                        print("Error sending message to client:", e)
+                        pass
+                        # print("Error sending message to client:", e)
             except queue.Empty:
                 pass
 
@@ -119,8 +119,8 @@ class Server:
     def set_device_name_callback(self, callback):
         self.__device_name_callback = callback
     
+    def set_message(self, msg:str):
+        self.__message_queue.put(msg)
+    
     def get_server_ip(self) -> str:
         return self.__ip_address
-    
-    def set_message(self, msg:str):
-        self.__message_queue.put(msg)  # Put message into the queue

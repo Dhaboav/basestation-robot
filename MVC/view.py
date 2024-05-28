@@ -5,14 +5,15 @@ from datetime import datetime
 
 
 class View:
-    def __init__(self, master, controller):
+    def __init__(self, master, controller) -> None:
         self.__controller = controller
         self.__refbox_panel(master=master)
         self.__server_panel(master=master)
         self.__prompt_panel(master=master)
+        self.__robot_panel(master=master)
         self.__control_panel(master=master)
 
-    def __refbox_panel(self, master):
+    def __refbox_panel(self, master) -> None:
         self.__refbox_label_frame = Tk.LabelFrame(master=master, text='REFBOX', width=200)
         self.__refbox_label_frame.grid(row=0, column=0, padx=(5, 0))
         # Component
@@ -34,7 +35,7 @@ class View:
         self.__disconnect_button.grid(row=2, column=1, padx=(5, 0), pady=(5, 10), sticky="w")
         self.__connection_status.grid(row=2, column=1, padx=(100, 0), pady=(5, 10), sticky="w")
 
-    def __server_panel(self, master):
+    def __server_panel(self, master) -> None:
         self.__server_label_frame = Tk.LabelFrame(master=master, text='SERVER', width=200)
         self.__server_label_frame.grid(row=1, column=0, padx=10)
         # Component
@@ -56,7 +57,7 @@ class View:
         self.__disconnect_server_button.grid(row=2, column=1, padx=(5, 0), pady=10, sticky="w")
         self.__server_status.grid(row=2, column=1, padx=(100, 0), pady=10, sticky="w")
 
-    def __prompt_panel(self, master):
+    def __prompt_panel(self, master) -> None:
         self.__prompt_label_frame = Tk.LabelFrame(master=master, text='PROMPT', width=200)
         self.__prompt_label_frame.grid(row=2, column=0, padx=10)
         self.__prompt_font = font.Font(family='Consolas', size=11, weight='bold')
@@ -71,9 +72,28 @@ class View:
         self.__text_area.grid(row=0, column=0, padx=5, pady=5)
         self.__clear_button.grid(row=1, column=0, pady=(5,10))
 
-    def __control_panel(self, master):
+    def __robot_panel(self, master) -> None:
+        self.__robot_label_frame = Tk.LabelFrame(master=master, text='ROBOT INDICATOR PANEL', width=200)
+        self.__robot_label_frame.grid(row=0, column=1)
+        # Component
+        self.__label_robot_magenta = Tk.Label(master=self.__robot_label_frame, text='MAGENTA')
+        self.__magenta_status = Tk.Frame(master=self.__robot_label_frame, width=25, height=25, background='red')
+        self.__label_robot_cyan = Tk.Label(master=self.__robot_label_frame, text='CYAN')
+        self.__cyan_status = Tk.Frame(master=self.__robot_label_frame, width=25, height=25, background='red')
+        self.__label_robot_kiper = Tk.Label(master=self.__robot_label_frame, text='KIPER')
+        self.__kiper_status = Tk.Frame(master=self.__robot_label_frame, width=25, height=25, background='red')
+        
+        # Position
+        self.__label_robot_magenta.grid(row=0, column=0, padx=5)
+        self.__magenta_status.grid(row=0, column=1, padx=(2,5))
+        self.__label_robot_cyan.grid(row=0, column=2, padx=5)
+        self.__cyan_status.grid(row=0, column=3, padx=(2,5))
+        self.__label_robot_kiper.grid(row=0, column=4, padx=5)
+        self.__kiper_status.grid(row=0, column=5, padx=(2,10), pady=5)
+
+    def __control_panel(self, master) -> None:
         self.__control_label_frame = Tk.LabelFrame(master=master, text='CONTROL PANEL', width=200)
-        self.__control_label_frame.grid(row=0, rowspan=3, column=1)
+        self.__control_label_frame.grid(row=1, rowspan=2, column=1)
         self.__control_font = font.Font(family='Calibri', size=16, weight='bold')
         # Component
         self.__kickoff_button = Tk.Button(master=self.__control_label_frame, text='K | kick off', width=10, 
@@ -125,6 +145,9 @@ class View:
         self.__sesi4_button = Tk.Button(master=self.__control_label_frame, text='4 | sesi IV', width=10, 
                                         foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 4'))
         self.__sesi4_button['font'] = self.__control_font
+        self.__sesi5_button = Tk.Button(master=self.__control_label_frame, text='5 | sesi V', width=10, 
+                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 5'))
+        self.__sesi5_button['font'] = self.__control_font
         # Position
         self.__kickoff_button.grid(row=0, column=0, padx=(5, 0))
         self.__freekick_button.grid(row=0, column=1, padx=5)
@@ -142,36 +165,54 @@ class View:
         self.__sesi1_button.grid(row=4, column=0, padx=(5, 0), pady=(0, 5))
         self.__sesi2_button.grid(row=4, column=1, padx=5, pady=(0, 5))
         self.__sesi3_button.grid(row=4, column=2, padx=(0, 5), pady=(0, 5))
-        self.__sesi4_button.grid(row=5, column=1, padx=5, pady=(0, 5))
-
+        self.__sesi4_button.grid(row=5, column=0, padx=(5, 0), pady=(0, 5))
+        self.__sesi5_button.grid(row=5, column=2, padx=(0, 5), pady=(0, 5))
 
     # Setter   
-    def set_connection_status_connected(self):
+    def set_connection_status_connected(self) -> None:
         self.__connection_status.configure(background='green')
         
-    def set_connection_status_disconnect(self):
+    def set_connection_status_disconnect(self) -> None:
         self.__connection_status.configure(background='red')
 
-    def set_prompt_log(self, message:str):
+    def set_prompt_log(self, message:str) -> None:
         __timestamp = datetime.now().strftime('[%H:%M:%S] ')
         self.__text_area.configure(state="normal")
         self.__text_area.insert(Tk.END, __timestamp + message + '\n')
         self.__text_area.see(Tk.END)
         self.__text_area.configure(state="disabled")
         
-    def set_empty_text_area(self):
+    def set_empty_text_area(self) -> None:
         self.__text_area.configure(state="normal")
         self.__text_area.delete('1.0', Tk.END)
         self.__text_area.configure(state="disabled")
 
-    def set_server_ip(self, IP_server:str):
+    def set_server_ip(self, IP_server:str) -> None:
         self.__server_ip.configure(text=IP_server)
 
-    def set_server_status_on(self):
+    def set_server_status_on(self) -> None:
         self.__server_status.configure(background='green')
         
-    def set_server_status_off(self):
+    def set_server_status_off(self) -> None:
         self.__server_status.configure(background='red')
+
+    def set_magenta_status_on(self) -> None:
+        self.__magenta_status.configure(background='green')
+
+    def set_magenta_status_off(self) -> None:
+        self.__magenta_status.configure(background='red')
+
+    def set_cyan_status_on(self) -> None:
+        self.__cyan_status.configure(background='green')
+
+    def set_cyan_status_off(self) -> None:
+        self.__cyan_status.configure(background='red')
+    
+    def set_kiper_status_on(self) -> None:
+        self.__kiper_status.configure(background='green')
+
+    def set_kiper_status_off(self) -> None:
+        self.__kiper_status.configure(background='red')
 
     # Getter
     def get_ip_refbox(self) -> str:
@@ -184,8 +225,8 @@ class View:
         return self.__port_server.get()
     
     # Dialog
-    def show_info_dialog(self, title:str, message:str):
+    def show_info_dialog(self, title:str, message:str) -> messagebox:
         messagebox.showinfo(title, message)
 
-    def show_error_dialog(self, title:str, message:str):
+    def show_error_dialog(self, title:str, message:str) -> messagebox:
         messagebox.showerror(title, message)

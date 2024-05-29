@@ -89,7 +89,7 @@ class View:
         self.__label_robot_cyan.grid(row=0, column=2, padx=5)
         self.__cyan_status.grid(row=0, column=3, padx=(2,5))
         self.__label_robot_kiper.grid(row=0, column=4, padx=5)
-        self.__kiper_status.grid(row=0, column=5, padx=(2,10), pady=5)
+        self.__kiper_status.grid(row=0, column=5, padx=(2,10), pady=10)
 
     def __control_panel(self, master) -> None:
         self.__control_label_frame = Tk.LabelFrame(master=master, text='CONTROL PANEL', width=200)

@@ -4,7 +4,7 @@ from MVC.controller import Controller
 
 def main():
     root = Tk()
-    root.title('Basestation')
+    root.title('Basestation Eon Teringas')
 
     # Popup di bagian tengah
     screen_width = root.winfo_screenwidth()

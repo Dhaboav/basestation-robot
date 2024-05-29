@@ -1,5 +1,5 @@
-from MVC.model import Model
 from MVC.view import View
+from MVC.model import Model
 from MVC.client import Client
 from MVC.server import Server
 
@@ -90,7 +90,24 @@ class Controller:
                     self.__view.set_prompt_log(message=message)
 
     def handle_device_connection(self, message:str):
-        self.__view.set_prompt_log(message=message)
+        parse_message = message.split()
+        device_name = parse_message[0]
+        status = parse_message[1]
+        if status == 'Connect':
+            if device_name == 'Magenta':
+                self.__view.set_magenta_status_on()
+            elif device_name =='Cyan':
+                self.__view.set_cyan_status_on()
+
+            self.__view.set_prompt_log(message=f'{device_name} [✔]')
+        
+        elif status == 'Disconnect':
+            if device_name == 'Magenta':
+                self.__view.set_magenta_status_off()
+            elif device_name =='Cyan':
+                self.__view.set_cyan_status_off()
+
+            self.__view.set_prompt_log(message=f'{device_name} [X]')
 
     def handle_control_button(self, button_id:str) -> str:
         __button2robot = self.__model.get_button_dict(key=button_id)

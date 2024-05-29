@@ -1,17 +1,15 @@
+import queue
 import socket
 import psutil
 import threading
-import time
-import queue
 
 
 class Server:
-
     def __init__(self, connection_dict: dict):
         self.__connection_dict = connection_dict
         self.__server_running = False
         self.__device_name_callback = None
-        self.__message_queue = queue.Queue()  # Queue for storing messages to be sent
+        self.__message_queue = queue.Queue()
         self.__client_sockets = []
         self.__init_ipv4_address()
 
@@ -73,14 +71,14 @@ class Server:
             except OSError:
                 break
             except Exception as e:
-                print("Error:", e)
+                pass
 
     def __handle_clients(self, client_socket, client_address):
         client_ip = client_address[0]
         device_name = self.__filtering_ip_client(ip_address_client=client_ip)
         if device_name:
             if self.__device_name_callback:
-                self.__device_name_callback(device_name + ' [✔]')
+                self.__device_name_callback(f'{device_name} Connect')
             try:
                 while self.__server_running:
                     data = client_socket.recv(1024)
@@ -92,10 +90,13 @@ class Server:
                 pass
             finally:
                 client_socket.close()
+                self.__client_sockets.remove(client_socket)
                 if self.__device_name_callback:
-                    self.__device_name_callback(device_name + ' [X]')
+                    self.__device_name_callback(f'{device_name} Disconnect')
         else:
             client_socket.close()
+            if self.__device_name_callback:
+                self.__device_name_callback(f'{client_ip} Disconnect')
 
     def __send_messages_to_clients(self):
         while self.__server_running:
@@ -106,7 +107,6 @@ class Server:
                         client_socket.send(message.encode()) 
                     except Exception as e:
                         pass
-                        # print("Error sending message to client:", e)
             except queue.Empty:
                 pass
 
@@ -124,3 +124,6 @@ class Server:
     
     def get_server_ip(self) -> str:
         return self.__ip_address
+    
+    def get_connected_ips(self) -> list:
+        return self.__client_sockets

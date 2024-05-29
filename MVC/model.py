@@ -18,7 +18,7 @@ class Model:
             'kick off':'K', 'free kick':'F', 'goal kick':'G',
             'throw in':'T', 'corner':'C', 'penalty':'P', 'repair':'R',
             'start':'s', 'stop':'S', 'drop ball':'N', 'park':'L', 'reset':'Z',
-            'sesi 1':'1', 'sesi 2':'2', 'sesi 3':'3', 'sesi 4':'4'
+            'sesi 1':'1', 'sesi 2':'2', 'sesi 3':'3', 'sesi 4':'4', 'sesi 5':'5'
         }
 
         self.__ip_address_dict = {'Cyan':data["IP_CYAN"], 'Magenta':data["IP_MAGENTA"]}

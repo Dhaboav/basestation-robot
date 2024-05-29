@@ -7,7 +7,7 @@
 <h3 align="center">Basestation</h3>
 
   <p align="center">
-    Repositori untuk basestation tim robot Ver 2.0.4 
+    Repositori untuk basestation tim robot Ver 2.0.5 
     <br />
     <a href="https://github.com/Dhaboav/basestation-robot/issues">Lapor Bug atau issue</a>
   </p>
@@ -63,7 +63,7 @@
 4. Bagian `setup` dapat dirubah alamat `IP_ADDRESS` menyesuaikan kondisi.
 5. Bagian `app` digunakan untuk menjalankan aplikasi.
 
-`HANYA UBAH` bagian `setup` dan tidak direkomendasikan untuk mengubah source code selain file data.
+`HANYA UBAH` bagian `setup` dan tidak direkomendasikan untuk mengubah source code selain file setup.
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
 
 

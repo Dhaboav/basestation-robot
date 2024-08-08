@@ -11,7 +11,7 @@ class View:
         self.__refbox_panel(master=master)
         self.__server_panel(master=master)
         self.__prompt_panel(master=master)
-        # self.__robot_panel(master=master)
+        self.__robot_panel(master=master)
         # self.__control_panel(master=master)
 
     def __refbox_panel(self, master) -> None:
@@ -74,11 +74,12 @@ class View:
         # Frame
         self.__prompt_label_frame = ctk.CTkFrame(master=master)
         self.__prompt_label_frame.grid(row=3, column=0)
-        self.__prompt_title = ctk.CTkLabel(master=self.__prompt_label_frame, text='PROMPT', font=('Arial', 16, 'bold'))
+        self.__prompt_title = ctk.CTkLabel(master=self.__prompt_label_frame, text='TERMINAL', font=('Arial', 16, 'bold'))
         self.__prompt_font = ctk.CTkFont(family='Consolas', size=11, weight='bold')
         
         # Components
-        self.__text_area = ctk.CTkTextbox(master=self.__prompt_label_frame, width=240, height=110, text_color='green')
+        self.__text_area = ctk.CTkTextbox(master=self.__prompt_label_frame, width=225, height=110, 
+                                          fg_color='black', text_color='green')
         self.__text_area['font'] = self.__prompt_font
         self.__text_area.configure(state='disabled')
         self.__clear_button = ctk.CTkButton(master=self.__prompt_label_frame, text='Clear', width=80, 
@@ -86,27 +87,31 @@ class View:
         
         # Position
         self.__prompt_title.grid(row=0, column=0, columnspan=2)
-        self.__text_area.grid(row=1, column=0, padx=5, pady=5)
+        self.__text_area.grid(row=1, column=0, padx=10, pady=5)
         self.__clear_button.grid(row=2, column=0, pady=(5,10))
 
     def __robot_panel(self, master) -> None:
-        self.__robot_label_frame = Tk.LabelFrame(master=master, text='ROBOT INDICATOR PANEL', width=200)
-        self.__robot_label_frame.grid(row=0, column=1)
-        # Component
-        self.__label_robot_magenta = Tk.Label(master=self.__robot_label_frame, text='MAGENTA')
-        self.__magenta_status = Tk.Frame(master=self.__robot_label_frame, width=25, height=25, background='red')
-        self.__label_robot_cyan = Tk.Label(master=self.__robot_label_frame, text='CYAN')
-        self.__cyan_status = Tk.Frame(master=self.__robot_label_frame, width=25, height=25, background='red')
-        self.__label_robot_kiper = Tk.Label(master=self.__robot_label_frame, text='KIPER')
-        self.__kiper_status = Tk.Frame(master=self.__robot_label_frame, width=25, height=25, background='red')
+        # Frame
+        self.__robot_label_frame = ctk.CTkFrame(master=master)
+        self.__robot_label_frame.grid(row=0, column=1, padx=(60,0), sticky='n')
+        self.__robot_title = ctk.CTkLabel(master=self.__robot_label_frame, text='ROBOT INDICATOR', font=('Arial', 16, 'bold'))
+
+        # Components
+        self.__label_robot_magenta = ctk.CTkLabel(master=self.__robot_label_frame, text='MAGENTA')
+        self.__magenta_status = ctk.CTkFrame(master=self.__robot_label_frame, width=35, height=25, corner_radius=5, fg_color='red')
+        self.__label_robot_cyan = ctk.CTkLabel(master=self.__robot_label_frame, text='CYAN')
+        self.__cyan_status = ctk.CTkFrame(master=self.__robot_label_frame,width=35, height=25, corner_radius=5, fg_color='red')
+        self.__label_robot_kiper = ctk.CTkLabel(master=self.__robot_label_frame, text='KIPER')
+        self.__kiper_status = ctk.CTkFrame(master=self.__robot_label_frame, width=35, height=25, corner_radius=5, fg_color='red')
         
         # Position
-        self.__label_robot_magenta.grid(row=0, column=0, padx=5)
-        self.__magenta_status.grid(row=0, column=1, padx=(2,5))
-        self.__label_robot_cyan.grid(row=0, column=2, padx=5)
-        self.__cyan_status.grid(row=0, column=3, padx=(2,5))
-        self.__label_robot_kiper.grid(row=0, column=4, padx=5)
-        self.__kiper_status.grid(row=0, column=5, padx=(2,10), pady=10)
+        self.__robot_title.grid(row=0, column=0, columnspan=3)
+        self.__label_robot_magenta.grid(row=1, column=0, padx=(10,0), pady=10, sticky='w')
+        self.__magenta_status.grid(row=1, column=0, padx=(80,0))
+        self.__label_robot_cyan.grid(row=1, column=1, padx=(10,0), sticky='w')
+        self.__cyan_status.grid(row=1, column=1, padx=(50,0))
+        self.__label_robot_kiper.grid(row=1, column=2, padx=(10,0), sticky='w')
+        self.__kiper_status.grid(row=1, column=2, padx=(50,10))
 
     def __control_panel(self, master) -> None:
         self.__control_label_frame = Tk.LabelFrame(master=master, text='CONTROL PANEL', width=200)
@@ -194,15 +199,15 @@ class View:
 
     def set_prompt_log(self, message:str) -> None:
         __timestamp = datetime.now().strftime('[%H:%M:%S] ')
-        self.__text_area.configure(state="normal")
-        self.__text_area.insert(Tk.END, __timestamp + message + '\n')
-        self.__text_area.see(Tk.END)
-        self.__text_area.configure(state="disabled")
+        self.__text_area.configure(state='normal')
+        self.__text_area.insert(ctk.END, __timestamp + message + '\n')
+        self.__text_area.see(ctk.END)
+        self.__text_area.configure(state='disabled')
         
     def set_empty_text_area(self) -> None:
-        self.__text_area.configure(state="normal")
-        self.__text_area.delete('1.0', Tk.END)
-        self.__text_area.configure(state="disabled")
+        self.__text_area.configure(state='normal')
+        self.__text_area.delete('1.0', ctk.END)
+        self.__text_area.configure(state='disabled')
 
     def set_server_ip(self, IP_server:str) -> None:
         self.__server_ip.configure(text=IP_server)
@@ -214,22 +219,22 @@ class View:
         self.__server_status.configure(fg_color='red')
 
     def set_magenta_status_on(self) -> None:
-        self.__magenta_status.configure(background='green')
+        self.__magenta_status.configure(fg_color='green')
 
     def set_magenta_status_off(self) -> None:
-        self.__magenta_status.configure(background='red')
+        self.__magenta_status.configure(fg_color='red')
 
     def set_cyan_status_on(self) -> None:
-        self.__cyan_status.configure(background='green')
+        self.__cyan_status.configure(fg_color='green')
 
     def set_cyan_status_off(self) -> None:
-        self.__cyan_status.configure(background='red')
+        self.__cyan_status.configure(fg_color='red')
     
     def set_kiper_status_on(self) -> None:
-        self.__kiper_status.configure(background='green')
+        self.__kiper_status.configure(fg_color='green')
 
     def set_kiper_status_off(self) -> None:
-        self.__kiper_status.configure(background='red')
+        self.__kiper_status.configure(fg_color='red')
 
     # Getter
     def get_ip_refbox(self) -> str:

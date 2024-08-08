@@ -10,7 +10,7 @@ class View:
         self.__controller = controller
         self.__refbox_panel(master=master)
         self.__server_panel(master=master)
-        # self.__prompt_panel(master=master)
+        self.__prompt_panel(master=master)
         # self.__robot_panel(master=master)
         # self.__control_panel(master=master)
 
@@ -50,7 +50,7 @@ class View:
         
         # Components
         self.__label_ip_server = ctk.CTkLabel(master=self.__server_label_frame, text='IP', font=('Arial', 12))
-        self.__server_ip = ctk.CTkLabel(master=self.__server_label_frame, text='', fg_color='green')
+        self.__server_ip = ctk.CTkLabel(master=self.__server_label_frame, text='', font=('Arial', 12))
         self.__label_port_server = ctk.CTkLabel(master=self.__server_label_frame, text='PORT', font=('Arial', 12))
         self.__port_server = ctk.CTkEntry(master=self.__server_label_frame, width=180)
         self.__connect_server_button = ctk.CTkButton(master=self.__server_label_frame, text='Connect', width=80, 
@@ -64,25 +64,30 @@ class View:
         self.__server_frame_title.grid(row=0, column=0, columnspan=2)
         self.__label_ip_server.grid(row=1, column=0, padx=(10,0), sticky='w')
         self.__label_port_server.grid(row=2, column=0, padx=(10,0), sticky='w')
+        self.__server_ip.grid(row=1, column=1, padx=10)
         self.__port_server.grid(row=2, column=1, padx=10)
         self.__server_status.grid(row=3, column=0, padx=(10,0), sticky='w')
         self.__connect_server_button.grid(row=3, column=1, padx=10, pady=10, sticky='w')
         self.__disconnect_server_button.grid(row=3, column=1, padx=(105,0), sticky='w')
 
     def __prompt_panel(self, master) -> None:
-        self.__prompt_label_frame = Tk.LabelFrame(master=master, text='PROMPT', width=200)
-        self.__prompt_label_frame.grid(row=2, column=0, padx=10)
-        self.__prompt_font = font.Font(family='Consolas', size=11, weight='bold')
-        # Component
-        self.__text_area = Tk.Text(master=self.__prompt_label_frame, width=28, height=9, 
-                                   foreground='chartreuse1', background='black')
+        # Frame
+        self.__prompt_label_frame = ctk.CTkFrame(master=master)
+        self.__prompt_label_frame.grid(row=3, column=0)
+        self.__prompt_title = ctk.CTkLabel(master=self.__prompt_label_frame, text='PROMPT', font=('Arial', 16, 'bold'))
+        self.__prompt_font = ctk.CTkFont(family='Consolas', size=11, weight='bold')
+        
+        # Components
+        self.__text_area = ctk.CTkTextbox(master=self.__prompt_label_frame, width=240, height=110, text_color='green')
         self.__text_area['font'] = self.__prompt_font
-        self.__text_area.configure(state="disabled")
-        self.__clear_button = Tk.Button(master=self.__prompt_label_frame, text='Clear', width=10, 
-                                        foreground='white', background='blue', command=self.__controller.clear_prompt)
+        self.__text_area.configure(state='disabled')
+        self.__clear_button = ctk.CTkButton(master=self.__prompt_label_frame, text='Clear', width=80, 
+                                               fg_color='blue', command=self.__controller.clear_prompt)
+        
         # Position
-        self.__text_area.grid(row=0, column=0, padx=5, pady=5)
-        self.__clear_button.grid(row=1, column=0, pady=(5,10))
+        self.__prompt_title.grid(row=0, column=0, columnspan=2)
+        self.__text_area.grid(row=1, column=0, padx=5, pady=5)
+        self.__clear_button.grid(row=2, column=0, pady=(5,10))
 
     def __robot_panel(self, master) -> None:
         self.__robot_label_frame = Tk.LabelFrame(master=master, text='ROBOT INDICATOR PANEL', width=200)

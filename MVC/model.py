@@ -10,7 +10,7 @@ class Model:
             'k':'[M] kick off', 'f':'[M] free kick', 'g':'[M] goal kick',
             't':'[M] throw in', 'c':'[M] corner', 'p':'[M] penalty',
             'K':'[C] kick off', 'F':'[C] free kick', 'G':'[C] goal kick',
-            'T':'[C] throw in', 'C':'[C] corner', 'P':'[C] penalty',
+            'T':'[C] throw in', 'C':'[C] corner', 'P':'[C] penalty', 'R':'repair',
             's':'start', 'S':'stop', 'N':'drop ball','L':'park', 'Z':'reset'
         }
         

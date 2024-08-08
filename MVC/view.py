@@ -1,5 +1,3 @@
-import tkinter as Tk
-import tkinter.font as font
 import customtkinter as ctk
 from datetime import datetime
 from tkinter import messagebox
@@ -8,11 +6,12 @@ from tkinter import messagebox
 class View:
     def __init__(self, master, controller) -> None:
         self.__controller = controller
+        self.__control_font = ('Arial', 16, 'bold')
         self.__refbox_panel(master=master)
         self.__server_panel(master=master)
         self.__prompt_panel(master=master)
         self.__robot_panel(master=master)
-        # self.__control_panel(master=master)
+        self.__control_panel(master=master)
 
     def __refbox_panel(self, master) -> None:
         # Frame
@@ -73,7 +72,7 @@ class View:
     def __prompt_panel(self, master) -> None:
         # Frame
         self.__prompt_label_frame = ctk.CTkFrame(master=master)
-        self.__prompt_label_frame.grid(row=3, column=0)
+        self.__prompt_label_frame.grid(row=3, column=0, sticky='n')
         self.__prompt_title = ctk.CTkLabel(master=self.__prompt_label_frame, text='TERMINAL', font=('Arial', 16, 'bold'))
         self.__prompt_font = ctk.CTkFont(family='Consolas', size=11, weight='bold')
         
@@ -83,7 +82,7 @@ class View:
         self.__text_area['font'] = self.__prompt_font
         self.__text_area.configure(state='disabled')
         self.__clear_button = ctk.CTkButton(master=self.__prompt_label_frame, text='Clear', width=80, 
-                                               fg_color='blue', command=self.__controller.clear_prompt)
+                                               fg_color='#17A2B8', command=self.__controller.clear_prompt)
         
         # Position
         self.__prompt_title.grid(row=0, column=0, columnspan=2)
@@ -114,81 +113,48 @@ class View:
         self.__kiper_status.grid(row=1, column=2, padx=(50,10))
 
     def __control_panel(self, master) -> None:
-        self.__control_label_frame = Tk.LabelFrame(master=master, text='CONTROL PANEL', width=200)
-        self.__control_label_frame.grid(row=1, rowspan=2, column=1)
-        self.__control_font = font.Font(family='Calibri', size=16, weight='bold')
-        # Component
-        self.__kickoff_button = Tk.Button(master=self.__control_label_frame, text='K | kick off', width=10, 
-                                        foreground='white', background='blue', command=lambda: self.__controller.handle_control_button(button_id='kick off'))
-        self.__kickoff_button['font'] = self.__control_font
-        self.__freekick_button = Tk.Button(master=self.__control_label_frame, text='F | free kick', width=10, 
-                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='free kick'))
-        self.__freekick_button['font'] = self.__control_font
-        self.__goalkick_button = Tk.Button(master=self.__control_label_frame, text='G | goal kick', width=10, 
-                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='goal kick'))
-        self.__goalkick_button['font'] = self.__control_font
-        self.__throwin_button = Tk.Button(master=self.__control_label_frame, text='T | throw in', width=10, 
-                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='throw in'))
-        self.__throwin_button['font'] = self.__control_font
-        self.__corner_button = Tk.Button(master=self.__control_label_frame, text='C | corner', width=10, 
-                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='corner'))
-        self.__corner_button['font'] = self.__control_font
-        self.__penalty_button = Tk.Button(master=self.__control_label_frame, text='P | penalty', width=10, 
-                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='penalty'))
-        self.__penalty_button['font'] = self.__control_font
-        self.__repair_button = Tk.Button(master=self.__control_label_frame, text='R | repair', width=10, 
-                                        foreground='white', background='blue',  command=lambda: self.__controller.handle_control_button(button_id='repair'))
-        self.__repair_button['font'] = self.__control_font
-        self.__start_button = Tk.Button(master=self.__control_label_frame, text='s | start', width=10, 
-                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='start'))
-        self.__start_button['font'] = self.__control_font
-        self.__stop_button = Tk.Button(master=self.__control_label_frame, text='S | stop', width=10, 
-                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='stop'))
-        self.__stop_button['font'] = self.__control_font
-        self.__dropball_button = Tk.Button(master=self.__control_label_frame, text='N | drop ball', width=10, 
-                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='drop ball'))
-        self.__dropball_button['font'] = self.__control_font
-        self.__park_button = Tk.Button(master=self.__control_label_frame, text='L | park', width=10, 
-                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='park'))
-        self.__park_button['font'] = self.__control_font
-        self.__reset_button = Tk.Button(master=self.__control_label_frame, text='Z | reset', width=10, 
-                                        foreground='white', background='darkorchid1',  command=lambda: self.__controller.handle_control_button(button_id='reset'))
-        self.__reset_button['font'] = self.__control_font
-        # Dummy
-        self.__sesi1_button = Tk.Button(master=self.__control_label_frame, text='1 | sesi I', width=10, 
-                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 1'))
-        self.__sesi1_button['font'] = self.__control_font
-        self.__sesi2_button = Tk.Button(master=self.__control_label_frame, text='2 | sesi II', width=10, 
-                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 2'))
-        self.__sesi2_button['font'] = self.__control_font
-        self.__sesi3_button = Tk.Button(master=self.__control_label_frame, text='3 | sesi III', width=10, 
-                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 3'))
-        self.__sesi3_button['font'] = self.__control_font
-        self.__sesi4_button = Tk.Button(master=self.__control_label_frame, text='4 | sesi IV', width=10, 
-                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 4'))
-        self.__sesi4_button['font'] = self.__control_font
-        self.__sesi5_button = Tk.Button(master=self.__control_label_frame, text='5 | sesi V', width=10, 
-                                        foreground='white', background='azure4', command=lambda: self.__controller.handle_control_button(button_id='sesi 5'))
-        self.__sesi5_button['font'] = self.__control_font
-        # Position
-        self.__kickoff_button.grid(row=0, column=0, padx=(5, 0))
-        self.__freekick_button.grid(row=0, column=1, padx=5)
-        self.__goalkick_button.grid(row=0, column=2, padx=(0, 5))
-        self.__throwin_button.grid(row=1, column=0, padx=(5, 0), pady=5)
-        self.__corner_button.grid(row=1, column=1, padx=5, pady=5)
-        self.__penalty_button.grid(row=1, column=2, padx=(0, 5), pady=5)
-        self.__start_button.grid(row=2, column=0, padx=(5, 0), pady=(0, 5))
-        self.__repair_button.grid(row=2, column=1, padx=5, pady=(0, 5))
-        self.__stop_button.grid(row=2, column=2, padx=(0, 5), pady=(0, 5))
-        self.__dropball_button.grid(row=3, column=0, padx=(5, 0), pady=(0, 5))
-        self.__park_button.grid(row=3, column=1, padx=5, pady=(0, 5))
-        self.__reset_button.grid(row=3, column=2, padx=(0, 5), pady=(0, 5))
-        # Dummy
-        self.__sesi1_button.grid(row=4, column=0, padx=(5, 0), pady=(0, 5))
-        self.__sesi2_button.grid(row=4, column=1, padx=5, pady=(0, 5))
-        self.__sesi3_button.grid(row=4, column=2, padx=(0, 5), pady=(0, 5))
-        self.__sesi4_button.grid(row=5, column=0, padx=(5, 0), pady=(0, 5))
-        self.__sesi5_button.grid(row=5, column=2, padx=(0, 5), pady=(0, 5))
+        self.__control_label_frame = ctk.CTkFrame(master=master)
+        self.__control_label_frame.grid(row=1, rowspan=2, column=1, padx=(30, 0))
+        
+        # Title label
+        self.__control_title = ctk.CTkLabel(master=self.__control_label_frame, text='CONTROL PANEL', font=('Arial', 16, 'bold'))
+        self.__control_title.grid(row=0, column=0, columnspan=3)
+        button_width = 20  
+        # Create buttons with the same width
+        buttons = [
+            ('K | kick off', 'kick off'),
+            ('F | free kick', 'free kick'),
+            ('G | goal kick', 'goal kick'),
+            ('T | throw in', 'throw in'),
+            ('C | corner', 'corner'),
+            ('P | penalty', 'penalty'),
+            ('R | repair', 'repair'),
+            ('S | start', 'start'),
+            ('S | stop', 'stop'),
+            ('N | drop ball', 'drop ball'),
+            ('L | park', 'park'),
+            ('Z | reset', 'reset'),
+            ('1 | sesi I', 'sesi 1'),
+            ('2 | sesi II', 'sesi 2'),
+            ('3 | sesi III', 'sesi 3'),
+            ('4 | sesi IV', 'sesi 4'),
+            ('5 | sesi V', 'sesi 5'),
+        ]
+
+        for index, (text, button_id) in enumerate(buttons):
+            ctk.CTkButton(
+                master=self.__control_label_frame,
+                text=text,
+                width=button_width,
+                font=self.__control_font,
+                fg_color='#6C757D',
+                command=lambda b_id=button_id: self.__controller.handle_control_button(button_id=b_id)
+        
+            ).grid(row=(index // 3) + 1, column=index % 3, padx=10, pady=10, sticky='nsew')
+
+        # Configure grid columns to expand equally
+        for i in range(3):  # Assuming you have 3 columns
+            self.__control_label_frame.grid_columnconfigure(i, weight=1)
 
     # Setter   
     def set_connection_status_connected(self) -> None:

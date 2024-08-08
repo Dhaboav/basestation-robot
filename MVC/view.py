@@ -15,7 +15,7 @@ class View:
 
     def __refbox_panel(self, master) -> None:
         # Frame
-        self.__refbox_label_frame = ctk.CTkFrame(master=master)
+        self.__refbox_label_frame = ctk.CTkFrame(master=master, fg_color=master.cget('fg_color'))
         self.__refbox_label_frame.grid(row=0, column=0)
         self.__frame_title = ctk.CTkLabel(master=self.__refbox_label_frame, text='REFBOX', font=('Arial', 16, 'bold'))
         
@@ -32,7 +32,7 @@ class View:
         self.__connection_status.configure(fg_color='red')
 
         # Position
-        self.__frame_title.grid(row=0, column=0, columnspan=2)
+        self.__frame_title.grid(row=0, column=0, columnspan=2, pady=(10,0))
         self.__label_ip_refbox.grid(row=1, column=0, padx=(10,0), sticky='w')
         self.__ip_refbox.grid(row=1, column=1, padx=10, pady=5)
         self.__label_port_refbox.grid(row=2, column=0, padx=(10,0), sticky='w')
@@ -43,7 +43,7 @@ class View:
 
     def __server_panel(self, master) -> None:
         # Frame
-        self.__server_label_frame = ctk.CTkFrame(master=master)
+        self.__server_label_frame = ctk.CTkFrame(master=master, fg_color=master.cget('fg_color'))
         self.__server_label_frame.grid(row=1, column=0, pady=5)
         self.__server_frame_title = ctk.CTkLabel(master=self.__server_label_frame, text='SERVER', font=('Arial', 16, 'bold'))
         
@@ -71,7 +71,7 @@ class View:
 
     def __prompt_panel(self, master) -> None:
         # Frame
-        self.__prompt_label_frame = ctk.CTkFrame(master=master)
+        self.__prompt_label_frame = ctk.CTkFrame(master=master, fg_color=master.cget('fg_color'))
         self.__prompt_label_frame.grid(row=3, column=0, sticky='n')
         self.__prompt_title = ctk.CTkLabel(master=self.__prompt_label_frame, text='TERMINAL', font=('Arial', 16, 'bold'))
         self.__prompt_font = ctk.CTkFont(family='Consolas', size=11, weight='bold')
@@ -91,8 +91,8 @@ class View:
 
     def __robot_panel(self, master) -> None:
         # Frame
-        self.__robot_label_frame = ctk.CTkFrame(master=master)
-        self.__robot_label_frame.grid(row=0, column=1, padx=(60,0), sticky='n')
+        self.__robot_label_frame = ctk.CTkFrame(master=master, fg_color=master.cget('fg_color'))
+        self.__robot_label_frame.grid(row=0, column=1, padx=(10,0))
         self.__robot_title = ctk.CTkLabel(master=self.__robot_label_frame, text='ROBOT INDICATOR', font=('Arial', 16, 'bold'))
 
         # Components
@@ -113,14 +113,11 @@ class View:
         self.__kiper_status.grid(row=1, column=2, padx=(50,10))
 
     def __control_panel(self, master) -> None:
-        self.__control_label_frame = ctk.CTkFrame(master=master)
-        self.__control_label_frame.grid(row=1, rowspan=2, column=1, padx=(30, 0))
-        
-        # Title label
+        self.__control_label_frame = ctk.CTkFrame(master=master, fg_color=master.cget('fg_color'))
+        self.__control_label_frame.grid(row=1, rowspan=3, column=1, padx=(5, 0))
         self.__control_title = ctk.CTkLabel(master=self.__control_label_frame, text='CONTROL PANEL', font=('Arial', 16, 'bold'))
         self.__control_title.grid(row=0, column=0, columnspan=3)
         button_width = 20  
-        # Create buttons with the same width
         buttons = [
             ('K | kick off', 'kick off'),
             ('F | free kick', 'free kick'),
@@ -152,8 +149,7 @@ class View:
         
             ).grid(row=(index // 3) + 1, column=index % 3, padx=10, pady=10, sticky='nsew')
 
-        # Configure grid columns to expand equally
-        for i in range(3):  # Assuming you have 3 columns
+        for i in range(3):
             self.__control_label_frame.grid_columnconfigure(i, weight=1)
 
     # Setter   

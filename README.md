@@ -28,7 +28,7 @@
 
 ### Requirment
 1. Install Python.
-2. `pip install psutil` pada Python.
+2. `pip install -r requirements.txt` untuk instalasi library.
 3. Klon repo dari github.
   ```git
    git clone -b edit-branch https://github.com/dhaboav/basestation-robot.git

@@ -9,7 +9,7 @@ class View:
     def __init__(self, master, controller) -> None:
         self.__controller = controller
         self.__refbox_panel(master=master)
-        # self.__server_panel(master=master)
+        self.__server_panel(master=master)
         # self.__prompt_panel(master=master)
         # self.__robot_panel(master=master)
         # self.__control_panel(master=master)
@@ -43,26 +43,31 @@ class View:
         self.__disconnect_button.grid(row=3, column=1, padx=(105,0), sticky='w')
 
     def __server_panel(self, master) -> None:
-        self.__server_label_frame = Tk.LabelFrame(master=master, text='SERVER', width=200)
-        self.__server_label_frame.grid(row=1, column=0, padx=10)
-        # Component
-        self.__label_ip_server = Tk.Label(master=self.__server_label_frame, text='IP')
-        self.__server_ip = Tk.Label(master=self.__server_label_frame, text='', foreground='green')
-        self.__label_port_server = Tk.Label(master=self.__server_label_frame, text='PORT')
-        self.__port_server = Tk.Entry(master=self.__server_label_frame, width=20)
-        self.__connect_server_button = Tk.Button(master=self.__server_label_frame, text='Connect', width=10, 
-                                        foreground='white', background='green', command=self.__controller.server_online)
-        self.__disconnect_server_button = Tk.Button(master=self.__server_label_frame, text='Disconnect', width=10, 
-                                        foreground='white', background='red', command=self.__controller.server_offline)
-        self.__server_status = Tk.Frame(master=self.__server_label_frame, width=25, height=25, background='red')
+        # Frame
+        self.__server_label_frame = ctk.CTkFrame(master=master)
+        self.__server_label_frame.grid(row=1, column=0, pady=5)
+        self.__server_frame_title = ctk.CTkLabel(master=self.__server_label_frame, text='SERVER', font=('Arial', 16, 'bold'))
+        
+        # Components
+        self.__label_ip_server = ctk.CTkLabel(master=self.__server_label_frame, text='IP', font=('Arial', 12))
+        self.__server_ip = ctk.CTkLabel(master=self.__server_label_frame, text='', fg_color='green')
+        self.__label_port_server = ctk.CTkLabel(master=self.__server_label_frame, text='PORT', font=('Arial', 12))
+        self.__port_server = ctk.CTkEntry(master=self.__server_label_frame, width=180)
+        self.__connect_server_button = ctk.CTkButton(master=self.__server_label_frame, text='Connect', width=80, 
+                                            fg_color='green', text_color='white', command=self.__controller.server_online)
+        self.__disconnect_server_button = ctk.CTkButton(master=self.__server_label_frame, text='Disconnect', width=80, 
+                                               fg_color='red', text_color='white', command=self.__controller.server_offline)
+        self.__server_status = ctk.CTkFrame(master=self.__server_label_frame, width=35, height=25, corner_radius=5)
+        self.__server_status.configure(fg_color='red')
+        
         # Position
-        self.__label_ip_server.grid(row=0, column=0)
-        self.__server_ip.grid(row=0, column=1)
-        self.__label_port_server.grid(row=1, column=0)
-        self.__port_server.grid(row=1, column=1, padx=(0, 10))
-        self.__connect_server_button.grid(row=2, column=0, padx=(5, 5), pady=10, sticky="e")
-        self.__disconnect_server_button.grid(row=2, column=1, padx=(5, 0), pady=10, sticky="w")
-        self.__server_status.grid(row=2, column=1, padx=(100, 0), pady=10, sticky="w")
+        self.__server_frame_title.grid(row=0, column=0, columnspan=2)
+        self.__label_ip_server.grid(row=1, column=0, padx=(10,0), sticky='w')
+        self.__label_port_server.grid(row=2, column=0, padx=(10,0), sticky='w')
+        self.__port_server.grid(row=2, column=1, padx=10)
+        self.__server_status.grid(row=3, column=0, padx=(10,0), sticky='w')
+        self.__connect_server_button.grid(row=3, column=1, padx=10, pady=10, sticky='w')
+        self.__disconnect_server_button.grid(row=3, column=1, padx=(105,0), sticky='w')
 
     def __prompt_panel(self, master) -> None:
         self.__prompt_label_frame = Tk.LabelFrame(master=master, text='PROMPT', width=200)
@@ -198,10 +203,10 @@ class View:
         self.__server_ip.configure(text=IP_server)
 
     def set_server_status_on(self) -> None:
-        self.__server_status.configure(background='green')
+        self.__server_status.configure(fg_color='green')
         
     def set_server_status_off(self) -> None:
-        self.__server_status.configure(background='red')
+        self.__server_status.configure(fg_color='red')
 
     def set_magenta_status_on(self) -> None:
         self.__magenta_status.configure(background='green')

@@ -1,9 +1,9 @@
-from tkinter import Tk
+import customtkinter as ctk
 from MVC.controller import Controller
 
 
 def main():
-    root = Tk()
+    root = ctk.CTk()
     root.title('Basestation Eon Teringas')
 
     # Popup di bagian tengah

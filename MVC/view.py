@@ -1,39 +1,46 @@
 import tkinter as Tk
 import tkinter.font as font
-from tkinter import messagebox
+import customtkinter as ctk
 from datetime import datetime
+from tkinter import messagebox
 
 
 class View:
     def __init__(self, master, controller) -> None:
         self.__controller = controller
         self.__refbox_panel(master=master)
-        self.__server_panel(master=master)
-        self.__prompt_panel(master=master)
-        self.__robot_panel(master=master)
-        self.__control_panel(master=master)
+        # self.__server_panel(master=master)
+        # self.__prompt_panel(master=master)
+        # self.__robot_panel(master=master)
+        # self.__control_panel(master=master)
 
     def __refbox_panel(self, master) -> None:
-        self.__refbox_label_frame = Tk.LabelFrame(master=master, text='REFBOX', width=200)
-        self.__refbox_label_frame.grid(row=0, column=0, padx=(5, 0))
-        # Component
-        self.__label_ip_refbox = Tk.Label(master=self.__refbox_label_frame, text='IP')
-        self.__ip_refbox = Tk.Entry(master=self.__refbox_label_frame, width=20)
-        self.__label_port_refbox = Tk.Label(master=self.__refbox_label_frame, text='PORT')
-        self.__port_refbox = Tk.Entry(master=self.__refbox_label_frame, width=20)
-        self.__connect_button = Tk.Button(master=self.__refbox_label_frame, text='Connect', width=10, 
-                                        foreground='white', background='green', command=self.__controller.connect_refbox)
-        self.__disconnect_button = Tk.Button(master=self.__refbox_label_frame, text='Disconnect', width=10, 
-                                        foreground='white', background='red', command=self.__controller.disconnect_refbox)
-        self.__connection_status = Tk.Frame(master=self.__refbox_label_frame, width=25, height=25, background='red')
+        # Frame
+        self.__refbox_label_frame = ctk.CTkFrame(master=master)
+        self.__refbox_label_frame.grid(row=0, column=0)
+        self.__frame_title = ctk.CTkLabel(master=self.__refbox_label_frame, text='REFBOX', font=('Arial', 16, 'bold'))
+        
+        # Components
+        self.__label_ip_refbox = ctk.CTkLabel(master=self.__refbox_label_frame, text='IP', font=('Arial', 12))
+        self.__ip_refbox = ctk.CTkEntry(master=self.__refbox_label_frame, width=180)
+        self.__label_port_refbox = ctk.CTkLabel(master=self.__refbox_label_frame, text='PORT', font=('Arial', 12))
+        self.__port_refbox = ctk.CTkEntry(master=self.__refbox_label_frame, width=180)
+        self.__connect_button = ctk.CTkButton(master=self.__refbox_label_frame, text='Connect', width=80, 
+                                            fg_color='green', text_color='white', command=self.__controller.connect_refbox)
+        self.__disconnect_button = ctk.CTkButton(master=self.__refbox_label_frame, text='Disconnect', width=80, 
+                                               fg_color='red', text_color='white', command=self.__controller.disconnect_refbox)
+        self.__connection_status = ctk.CTkFrame(master=self.__refbox_label_frame, width=35, height=25, corner_radius=5)
+        self.__connection_status.configure(fg_color='red')
+
         # Position
-        self.__label_ip_refbox.grid(row=0, column=0)
-        self.__ip_refbox.grid(row=0, column=1, padx=(0, 10))
-        self.__label_port_refbox.grid(row=1, column=0)
-        self.__port_refbox.grid(row=1, column=1, padx=(0, 10), pady=10)
-        self.__connect_button.grid(row=2, column=0, padx=(5, 5), pady=(5, 10), sticky="e")
-        self.__disconnect_button.grid(row=2, column=1, padx=(5, 0), pady=(5, 10), sticky="w")
-        self.__connection_status.grid(row=2, column=1, padx=(100, 0), pady=(5, 10), sticky="w")
+        self.__frame_title.grid(row=0, column=0, columnspan=2)
+        self.__label_ip_refbox.grid(row=1, column=0, padx=(10,0), sticky='w')
+        self.__ip_refbox.grid(row=1, column=1, padx=10, pady=5)
+        self.__label_port_refbox.grid(row=2, column=0, padx=(10,0), sticky='w')
+        self.__port_refbox.grid(row=2, column=1, padx=10)
+        self.__connection_status.grid(row=3, column=0, padx=(10,0), sticky='w')
+        self.__connect_button.grid(row=3, column=1, padx=10, pady=10, sticky='w')
+        self.__disconnect_button.grid(row=3, column=1, padx=(105,0), sticky='w')
 
     def __server_panel(self, master) -> None:
         self.__server_label_frame = Tk.LabelFrame(master=master, text='SERVER', width=200)
@@ -170,10 +177,10 @@ class View:
 
     # Setter   
     def set_connection_status_connected(self) -> None:
-        self.__connection_status.configure(background='green')
+        self.__connection_status.configure(fg_color='green')
         
     def set_connection_status_disconnect(self) -> None:
-        self.__connection_status.configure(background='red')
+        self.__connection_status.configure(fg_color='red')
 
     def set_prompt_log(self, message:str) -> None:
         __timestamp = datetime.now().strftime('[%H:%M:%S] ')

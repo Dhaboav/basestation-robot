@@ -51,6 +51,7 @@
 ├── .gitignore
 ├── app.py
 ├── README.md
+├── requirements.txt
 └── setup.json
 ```
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>

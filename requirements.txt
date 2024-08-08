@@ -1,0 +1,6 @@
+# basestation requirements
+# Usage: pip install -r requirements.txt
+
+# Base ------------------------------------------------------------------------
+psutil>=6.0.0
+customtkinter>=5.2.2

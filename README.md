@@ -1,13 +1,11 @@
 <a name="readme-top"></a>
 
-
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
 <h3 align="center">Basestation</h3>
 
   <p align="center">
-    Repositori untuk basestation tim robot Ver 2.0.5 
+    Repositori untuk basestation tim robot Ver 3.0.0 
     <br />
     <a href="https://github.com/Dhaboav/basestation-robot/issues">Lapor Bug atau issue</a>
   </p>
@@ -28,7 +26,7 @@
 
 ### Requirment
 1. Install Python.
-2. `pip install psutil` pada Python.
+2. `pip install -r requirements.txt` untuk instalasi library.
 3. Klon repo dari github.
   ```git
    git clone -b edit-branch https://github.com/dhaboav/basestation-robot.git
@@ -51,6 +49,7 @@
 ├── .gitignore
 ├── app.py
 ├── README.md
+├── requirements.txt
 └── setup.json
 ```
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
@@ -74,5 +73,5 @@
 
 
 ### About
-Aplikasi menggunakan arsitektur MVC (MODEL-VIEW-CONTROLLER) dengan tambahan fungsionalitas client-server dan dibuat dengan bahasa pemrogramaan Python untuk versi saat ini hanya berkerja pada platform Windows dengan limitasi harus dijalankan dengan terminal pada file dengan nama `app.py`.
+Aplikasi menggunakan arsitektur MVC (MODEL-VIEW-CONTROLLER) dengan tambahan fungsionalitas client-server dan dibuat dengan bahasa pemrogramaan Python untuk versi saat ini berkerja optimal pada platform Windows dengan limitasi harus dijalankan dengan terminal pada file dengan nama `app.py`.
 <p align="right">(<a href="#readme-top">Kembali ke atas</a>)</p>
